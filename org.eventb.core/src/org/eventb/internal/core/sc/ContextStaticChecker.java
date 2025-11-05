@@ -57,10 +57,13 @@ public class ContextStaticChecker extends StaticChecker {
 				if (extendsContext.hasAbstractContextName()) {
 					IRodinFile abstractSCContext = extendsContext
 							.getAbstractSCContext().getRodinFile();
-					graph.addUserDependency(
-							source.getResource(), 
-							abstractSCContext.getResource(), 
-							target.getResource(), false);
+					// Only add dependency if the file exists
+					if (abstractSCContext != null && abstractSCContext.exists()) {
+						graph.addUserDependency(
+								source.getResource(), 
+								abstractSCContext.getResource(), 
+								target.getResource(), false);
+					}
 				}
 			}
 
