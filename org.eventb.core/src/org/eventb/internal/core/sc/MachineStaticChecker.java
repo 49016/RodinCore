@@ -59,21 +59,27 @@ public class MachineStaticChecker extends StaticChecker {
 			for (ISeesContext seesContext : seen) {
 				if (seesContext.hasSeenContextName()) {
 					IRodinFile seenSCContext = seesContext.getSeenSCContext();
-					graph.addUserDependency(
-							source.getResource(), 
-							seenSCContext.getResource(), 
-							target.getResource(), 
-							true);
+					// Only add dependency if the file exists
+					if (seenSCContext != null && seenSCContext.exists()) {
+						graph.addUserDependency(
+								source.getResource(), 
+								seenSCContext.getResource(), 
+								target.getResource(), 
+								true);
+					}
 				}
 			}
 		
 			if (abstractMachines.length != 0 && abstractMachines[0].hasAbstractMachineName()) {
 				IRodinFile abstractSCMachine = abstractMachines[0].getAbstractSCMachine();
-				graph.addUserDependency(
-						source.getResource(), 
-						abstractSCMachine.getResource(), 
-						target.getResource(), 
-						true);
+				// Only add dependency if the file exists
+				if (abstractSCMachine != null && abstractSCMachine.exists()) {
+					graph.addUserDependency(
+							source.getResource(), 
+							abstractSCMachine.getResource(), 
+							target.getResource(), 
+							true);
+				}
 			}
 		
 		} finally {
